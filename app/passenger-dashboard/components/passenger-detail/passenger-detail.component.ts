@@ -24,14 +24,14 @@ import { Passenger } from '../../models/passenger.interface';
         Check in date:
         {{detail.checkInDate ? (detail.checkInDate | date: 'yMMMMd') : 'Not checked in' }}
       </div>
-      <div class="children">
-        Children: {{detail.children?.length || 0 }}
-      </div>
       <button (click)="toggleEdit()">
         {{ editing ? 'Done' : 'Edit'}}
       </button>
       <button (click)="onRemove()">
         Remove
+      </button>
+      <button (click)="goToPassenger()">
+        View
       </button>
     </div>
   `
@@ -41,10 +41,13 @@ export class PassengerDetailComponent implements OnChanges {
   detail: Passenger;
 
   @Output()
-  edit: EventEmitter<any> = new EventEmitter();
+  edit: EventEmitter<Passenger> = new EventEmitter<Passenger>();
 
   @Output()
-  remove: EventEmitter<any> = new EventEmitter();
+  remove: EventEmitter<Passenger> = new EventEmitter<Passenger>();
+
+  @Output()
+  view: EventEmitter<Passenger> = new EventEmitter<Passenger>();
 
 
   editing: boolean = false;
@@ -68,5 +71,9 @@ export class PassengerDetailComponent implements OnChanges {
 
   onRemove() {
     this.remove.emit(this.detail);
+  }
+
+  goToPassenger() {
+    this.view.emit(this.detail);
   }
 }
